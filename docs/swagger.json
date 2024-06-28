@@ -61,6 +61,41 @@
                 }
             }
         },
+        "/ai_models/use": {
+            "post": {
+                "description": "Use AI model",
+                "produces": [
+                    "multipart/form-data"
+                ],
+                "tags": [
+                    "use_model"
+                ],
+                "summary": "Use AI model",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Text to analyze",
+                        "name": "text",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Image to analyze",
+                        "name": "image",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Content generated successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/ai_models/{id}": {
             "get": {
                 "description": "Get AI model",

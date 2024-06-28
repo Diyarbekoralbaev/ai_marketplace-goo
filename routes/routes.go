@@ -26,6 +26,8 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
 	r.PUT("/ai_models/:id", controllers.UpdateAiModel)
 	r.DELETE("/ai_models/:id", controllers.DeleteAiModel)
 
+	r.POST("/ai_models/use", controllers.UseModel)
+
 	authorized := r.Group("/")
 	authorized.Use(middleware.Authenticate)
 	{

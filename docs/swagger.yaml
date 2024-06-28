@@ -139,6 +139,29 @@ paths:
       summary: Update AI model
       tags:
       - ai_models
+  /ai_models/use:
+    post:
+      description: Use AI model
+      parameters:
+      - description: Text to analyze
+        in: formData
+        name: text
+        required: true
+        type: string
+      - description: Image to analyze
+        in: formData
+        name: image
+        type: file
+      produces:
+      - multipart/form-data
+      responses:
+        "200":
+          description: Content generated successfully
+          schema:
+            type: string
+      summary: Use AI model
+      tags:
+      - use_model
   /login:
     post:
       description: Login

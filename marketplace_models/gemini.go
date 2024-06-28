@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func generateContentWithImage(apiKey, imagePath, text string) (string, error) {
+func GenerateContentWithImage(apiKey, imagePath, text string) (string, error) {
 	// Read the image file
 	imageData, err := ioutil.ReadFile(imagePath)
 	if err != nil {

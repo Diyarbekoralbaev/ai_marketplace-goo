@@ -3,8 +3,11 @@ package controllers
 import (
 	"ai_marketplace_go/marketplace_models"
 	"ai_marketplace_go/models"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"os"
+	"path/filepath"
 )
 
 // GetAiModels godoc
@@ -117,16 +120,52 @@ func DeleteAiModel(c *gin.Context) {
 // @Produce multipart/form-data
 // @Param text formData string true "Text to analyze"
 // @Param image formData file false "Image to analyze"
-// @tags ai_models
+// @tags use_model
+// @Success 200 {string} string "Content generated successfully"
+// @Router /ai_models/use [post]
 func UseModel(c *gin.Context) {
 	apiKey := "AIzaSyBHENaVP_KEfM7Bm0fuLAfxllJ8MGECpms"
+
 	if c.PostForm("text") == "" {
 		c.JSON(400, gin.H{"error": "Text is required"})
 		return
 	}
-	if c.PostForm("image_path") == "" {
-		text := c.PostForm("text")
-		content := marketplace_models.GenerateText(apiKey, text)
+
+	text := c.PostForm("text")
+
+	// Check if image is uploaded
+	image, err := c.FormFile("image")
+	if err != nil {
+		// No image uploaded, proceed with text-only generation
+		content, err := marketplace_models.GenerateText(apiKey, text)
+		if err != nil {
+			c.JSON(500, gin.H{"error": "Error generating text"})
+			return
+		}
 		c.JSON(200, gin.H{"content": content})
+		return
 	}
+
+	// Save the uploaded image
+	imagePath := filepath.Join("uploads", image.Filename)
+	if err := c.SaveUploadedFile(image, imagePath); err != nil {
+		c.JSON(500, gin.H{"error": "Error saving image"})
+		return
+	}
+
+	// Ensure the image is deleted after the function returns
+	defer func() {
+		if err := os.Remove(imagePath); err != nil {
+			fmt.Printf("Failed to delete image file: %v\n", err)
+		}
+	}()
+
+	// Generate content with image
+	content, err := marketplace_models.GenerateContentWithImage(apiKey, imagePath, text)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Error generating content with image"})
+		return
+	}
+
+	c.JSON(200, gin.H{"content": content})
 }

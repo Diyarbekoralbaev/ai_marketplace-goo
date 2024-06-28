@@ -1,0 +1,180 @@
+basePath: /
+definitions:
+  models.LoginUser:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.SwaggerAiModel:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      owner:
+        type: string
+      price:
+        type: number
+      updated_at:
+        type: string
+    type: object
+  models.SwaggerUser:
+    properties:
+      balance:
+        type: number
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8089
+info:
+  contact: {}
+  description: This is a sample server Go Gin Auth server.
+  title: Go Gin Auth API
+  version: "1.0"
+paths:
+  /ai_models:
+    get:
+      description: Get all AI models
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SwaggerAiModel'
+            type: array
+      summary: Get all AI models
+      tags:
+      - ai_models
+    post:
+      description: Create AI model
+      parameters:
+      - description: AI model object
+        in: body
+        name: aiModel
+        required: true
+        schema:
+          $ref: '#/definitions/models.SwaggerAiModel'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.SwaggerAiModel'
+      summary: Create AI model
+      tags:
+      - ai_models
+  /ai_models/{id}:
+    delete:
+      description: Delete AI model
+      parameters:
+      - description: AI model ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: AI model deleted successfully
+          schema:
+            type: string
+      summary: Delete AI model
+      tags:
+      - ai_models
+    get:
+      description: Get AI model
+      parameters:
+      - description: AI model ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SwaggerAiModel'
+      summary: Get AI model
+      tags:
+      - ai_models
+    put:
+      description: Update AI model
+      parameters:
+      - description: AI model ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: AI model object
+        in: body
+        name: aiModel
+        required: true
+        schema:
+          $ref: '#/definitions/models.SwaggerAiModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SwaggerAiModel'
+      summary: Update AI model
+      tags:
+      - ai_models
+  /login:
+    post:
+      description: Login
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        schema:
+          $ref: '#/definitions/models.LoginUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Token
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - users
+  /register:
+    post:
+      description: Register a new user
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        schema:
+          $ref: '#/definitions/models.SwaggerUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User created successfully
+          schema:
+            type: string
+      summary: Register a new user
+      tags:
+      - users
+swagger: "2.0"

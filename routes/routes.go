@@ -28,6 +28,10 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
 
 	r.POST("/ai_models/use", controllers.UseModel)
 
+	r.POST("/contact", controllers.SendMessage)
+	r.GET("/contact", controllers.GetMessages)
+	r.GET("/contact/:id", controllers.GetMessage)
+
 	authorized := r.Group("/")
 	authorized.Use(middleware.Authenticate)
 	{

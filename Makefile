@@ -13,3 +13,6 @@ remove:
 restart:
 	docker-compose down --rmi all --volumes --remove-orphans
 	docker-compose up -d --build
+
+logs:
+	docker-compose logs -f

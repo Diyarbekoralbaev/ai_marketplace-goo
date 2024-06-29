@@ -275,6 +275,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/get_task_result": {
+            "post": {
+                "description": "Get the result of a task from the server",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "viggle"
+                ],
+                "summary": "Get the result of a task",
+                "parameters": [
+                    {
+                        "description": "Task data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TaskResult"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Task result",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/login": {
             "post": {
                 "description": "Login",
@@ -334,6 +380,134 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/set_video_task": {
+            "post": {
+                "description": "Set a video processing task for the server",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "viggle"
+                ],
+                "summary": "Set a video processing task",
+                "parameters": [
+                    {
+                        "description": "Task data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SetVideoTask"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Task set successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/upload_image": {
+            "post": {
+                "description": "Upload an image to the server",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "viggle"
+                ],
+                "summary": "Upload an image",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Image file",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Image uploaded successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/upload_video": {
+            "post": {
+                "description": "Upload a video to the server",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "viggle"
+                ],
+                "summary": "Upload a video",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Video file",
+                        "name": "video",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Video uploaded successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -345,6 +519,17 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "models.SetVideoTask": {
+            "type": "object",
+            "properties": {
+                "image_id": {
+                    "type": "integer"
+                },
+                "video_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -408,6 +593,14 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "models.TaskResult": {
+            "type": "object",
+            "properties": {
+                "task_id": {
+                    "type": "integer"
                 }
             }
         }

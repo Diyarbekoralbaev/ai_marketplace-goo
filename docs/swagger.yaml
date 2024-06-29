@@ -7,6 +7,13 @@ definitions:
       username:
         type: string
     type: object
+  models.SetVideoTask:
+    properties:
+      image_id:
+        type: integer
+      video_id:
+        type: integer
+    type: object
   models.SwaggerAiModel:
     properties:
       created_at:
@@ -48,7 +55,12 @@ definitions:
       username:
         type: string
     type: object
-host: localhost:8089
+  models.TaskResult:
+    properties:
+      task_id:
+        type: integer
+    type: object
+host: marketplace.araltech.tech
 info:
   contact: {}
   description: This is a sample server Go Gin Auth server.
@@ -226,6 +238,36 @@ paths:
       summary: Get message
       tags:
       - contact
+  /get_task_result:
+    post:
+      consumes:
+      - application/json
+      description: Get the result of a task from the server
+      parameters:
+      - description: Task data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.TaskResult'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Task result
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get the result of a task
+      tags:
+      - viggle
   /login:
     post:
       description: Login
@@ -264,4 +306,88 @@ paths:
       summary: Register a new user
       tags:
       - users
+  /set_video_task:
+    post:
+      consumes:
+      - application/json
+      description: Set a video processing task for the server
+      parameters:
+      - description: Task data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.SetVideoTask'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Task set successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Set a video processing task
+      tags:
+      - viggle
+  /upload_image:
+    post:
+      description: Upload an image to the server
+      parameters:
+      - description: Image file
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Image uploaded successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Upload an image
+      tags:
+      - viggle
+  /upload_video:
+    post:
+      description: Upload a video to the server
+      parameters:
+      - description: Video file
+        in: formData
+        name: video
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Video uploaded successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Upload a video
+      tags:
+      - viggle
 swagger: "2.0"

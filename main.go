@@ -13,7 +13,7 @@ import (
 // @version 1.0
 // @description This is a sample server Go Gin Auth server.
 
-// @host localhost:8089
+// @host marketplace.araltech.tech
 // @BasePath /
 func main() {
 	r := gin.Default()

@@ -29,3 +29,12 @@ type UseModel struct {
 	Text  string      `json:"text"`
 	Image image.Image `json:"image"`
 }
+
+type SetVideoTask struct {
+	VideoID int `json:"video_id"`
+	ImageID int `json:"image_id"`
+}
+
+type TaskResult struct {
+	TaskID int `json:"task_id"`
+}

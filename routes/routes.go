@@ -20,21 +20,25 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
 
 	r.POST("/register", controllers.Register)
 	r.POST("/login", controllers.Login)
-	r.POST("/ai_models", controllers.CreateAiModel)
-	r.GET("/ai_models", controllers.GetAiModels)
-	r.GET("/ai_models/:id", controllers.GetAiModel)
-	r.PUT("/ai_models/:id", controllers.UpdateAiModel)
-	r.DELETE("/ai_models/:id", controllers.DeleteAiModel)
-
-	r.POST("/ai_models/use", controllers.UseModel)
-
-	r.POST("/contact", controllers.SendMessage)
-	r.GET("/contact", controllers.GetMessages)
-	r.GET("/contact/:id", controllers.GetMessage)
 
 	authorized := r.Group("/")
 	authorized.Use(middleware.Authenticate)
 	{
 		authorized.GET("/profile", controllers.Profile)
+		authorized.POST("/upload_video", controllers.UploadVideo)
+		authorized.POST("/upload_image", controllers.UploadImage)
+		authorized.POST("/set_video_task", controllers.SetVideoTask)
+		authorized.POST("/get_task_result", controllers.GetTaskResult)
+		authorized.POST("/ai_models", controllers.CreateAiModel)
+		authorized.GET("/ai_models", controllers.GetAiModels)
+		authorized.GET("/ai_models/:id", controllers.GetAiModel)
+		authorized.PUT("/ai_models/:id", controllers.UpdateAiModel)
+		authorized.DELETE("/ai_models/:id", controllers.DeleteAiModel)
+
+		authorized.POST("/ai_models/use", controllers.UseModel)
+
+		authorized.POST("/contact", controllers.SendMessage)
+		authorized.GET("/contact", controllers.GetMessages)
+		authorized.GET("/contact/:id", controllers.GetMessage)
 	}
 }
